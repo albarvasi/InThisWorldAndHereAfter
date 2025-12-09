@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Our Journey – Albar & Bushra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>Our Journey 🤍</h1>
+      <p>From Roka onwards, one memory at a time.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / current event summary -->
+    <section id="hero" class="hero">
+      <div class="hero-text">
+        <h2 id="hero-title">Roka Ceremony – 29 November</h2>
+        <p id="hero-description">
+          The day our forever officially began.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="controls">
+      <div class="control">
+        <label for="eventSelect">Event</label>
+        <select id="eventSelect"></select>
+      </div>
+      <div class="control">
+        <label for="personFilter">Who’s in the photo?</label>
+        <select id="personFilter">
+          <option value="all">Everyone</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Main gallery -->
+    <section class="gallery-section">
+      <h3>Gallery</h3>
+      <div id="gallery" class="gallery-grid">
+        <!-- Filled dynamically by script.js -->
+      </div>
+      <p id="emptyMessage" class="empty-message" hidden>
+        No memories found for this filter yet. Try choosing another person or event.
+      </p>
+    </section>
+
+    <!-- Random collage “video wall” -->
+    <section class="collage-section">
+      <div class="collage-header">
+        <h3>Random Memories</h3>
+        <button id="collageToggle" class="btn">
+          Pause Collage
+        </button>
+      </div>
+      <p class="collage-subtitle">
+        A random shuffle of photos and videos from all events.
+      </p>
+      <div id="collageGrid" class="collage-grid">
+        <!-- Filled dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with 🤍 by Albar for Bushra</p>
+  </footer>
+
+  <!-- Data + logic -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

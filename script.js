@@ -143,64 +143,6 @@ function getFilteredMedia() {
   }).slice(0, GALLERY_COUNT_LIMIT);
 }
 
-// function renderGallery() {
-//   const items = getFilteredMedia();
-//   galleryEl.innerHTML = "";
-
-//   if (items.length === 0) {
-//     emptyMessageEl.hidden = false;
-//     return;
-//   }
-
-//   emptyMessageEl.hidden = true;
-
-//   const fragment = document.createDocumentFragment();
-
-//   items.forEach(item => {
-//     const card = document.createElement("article");
-//     card.className = "gallery-item";
-
-//     let mediaEl;
-//     if (item.type === "video") {
-//       mediaEl = document.createElement("video");
-//       mediaEl.src = item.src;
-//       mediaEl.controls = true;
-//       mediaEl.preload = "metadata";
-//     } else {
-//       mediaEl = document.createElement("img");
-//       mediaEl.src = item.src;
-//       mediaEl.alt = item.caption || "";
-//       mediaEl.loading = "lazy";
-//     }
-
-//     const meta = document.createElement("div");
-//     meta.className = "gallery-meta";
-
-//     const caption = document.createElement("div");
-//     caption.className = "gallery-caption";
-//     caption.textContent = item.caption || "";
-
-//     const tagsWrap = document.createElement("div");
-//     tagsWrap.className = "gallery-tags";
-
-//     (item.people || []).forEach(p => {
-//       const tag = document.createElement("span");
-//       tag.className = "tag";
-//       tag.textContent = p;
-//       tagsWrap.appendChild(tag);
-//     });
-
-//     meta.appendChild(caption);
-//     meta.appendChild(tagsWrap);
-
-//     card.appendChild(mediaEl);
-//     card.appendChild(meta);
-//     fragment.appendChild(card);
-//   });
-
-//   galleryEl.appendChild(fragment);
-// }
-
 function renderGallery() {
   const items = getFilteredMedia();
   currentGalleryItems = items; // keep track for lightbox navigation

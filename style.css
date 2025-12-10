@@ -312,3 +312,134 @@ select:focus {
     padding-inline: 1rem;
   }
 }
+
+/* LIGHTBOX */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.lightbox.is-open {
+  display: flex;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox-inner {
+  position: relative;
+  max-width: 960px;
+  max-height: 90vh;
+  width: 90%;
+  background: #020617;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+  padding: 1.1rem 1.3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 51;
+}
+
+.lightbox-media-wrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #020617;
+}
+
+.lightbox-media {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  display: none;
+  background: #020617;
+}
+
+.lightbox-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lightbox-meta h4 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.lightbox-meta p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.lightbox-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.lightbox-tags .tag {
+  font-size: 0.7rem;
+}
+
+/* Lightbox controls */
+
+.lightbox-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  width: 2.1rem;
+  height: 2.1rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-prev {
+  left: 0.5rem;
+}
+
+.lightbox-next {
+  right: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .lightbox-inner {
+    width: 94%;
+    padding-inline: 0.9rem;
+  }
+
+  .lightbox-nav {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+}

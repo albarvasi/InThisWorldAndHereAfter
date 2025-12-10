@@ -67,6 +67,35 @@
     </section>
   </main>
 
+    <!-- Lightbox / fullscreen viewer -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightbox-backdrop"></div>
+
+    <div class="lightbox-inner" role="dialog" aria-modal="true">
+      <button id="lightboxClose" class="lightbox-close" aria-label="Close">
+        &times;
+      </button>
+
+      <button id="lightboxPrev" class="lightbox-nav lightbox-prev" aria-label="Previous">
+        &#10094;
+      </button>
+      <button id="lightboxNext" class="lightbox-nav lightbox-next" aria-label="Next">
+        &#10095;
+      </button>
+
+      <div class="lightbox-media-wrap">
+        <img id="lightboxImage" class="lightbox-media" alt="" />
+        <video id="lightboxVideo" class="lightbox-media" controls></video>
+      </div>
+
+      <div class="lightbox-meta">
+        <h4 id="lightboxCaption"></h4>
+        <p id="lightboxEvent"></p>
+        <div id="lightboxTags" class="lightbox-tags"></div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <p>Made with 🤍 by Albar for Bushra</p>
   </footer>

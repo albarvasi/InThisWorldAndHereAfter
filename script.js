@@ -13,6 +13,9 @@ let collageIntervalId = null;
 let currentGalleryItems = [];     // items currently shown in the main gallery
 let currentLightboxIndex = 0;     // index in currentGalleryItems
 
+const TAGS_STORAGE_KEY = "weddingSite_tags_v1";
+let tagStore = {}; // { [itemId]: ["Albar", "Bushra", ...] }
+
 
 // DOM elements
 const eventSelectEl = document.getElementById("eventSelect");
@@ -33,9 +36,68 @@ const lightboxTagsEl = document.getElementById("lightboxTags");
 const lightboxCloseEl = document.getElementById("lightboxClose");
 const lightboxPrevEl = document.getElementById("lightboxPrev");
 const lightboxNextEl = document.getElementById("lightboxNext");
+const lightboxTagInputEl = document.getElementById("lightboxTagInput");
+const lightboxTagAddEl = document.getElementById("lightboxTagAdd");
+
+
+function loadTagStore() {
+  try {
+    const raw = localStorage.getItem(TAGS_STORAGE_KEY);
+    tagStore = raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    tagStore = {};
+  }
+}
+
+function saveTagStore() {
+  try {
+    localStorage.setItem(TAGS_STORAGE_KEY, JSON.stringify(tagStore));
+  } catch (e) {
+    // ignore
+  }
+}
+
+// Base tags from data.js
+function getBaseTagsForItem(itemId) {
+  const item = MEDIA_ITEMS.find(i => i.id === itemId);
+  return item && item.people ? [...item.people] : [];
+}
+
+// Ensure we have an editable array in tagStore
+function ensureTagArray(itemId) {
+  if (!tagStore[itemId]) {
+    tagStore[itemId] = getBaseTagsForItem(itemId);
+  }
+  return tagStore[itemId];
+}
+
+function getTagsForItem(item) {
+  const override = tagStore[item.id];
+  return override ? override : (item.people || []);
+}
+
+function addTagToItem(itemId, tag) {
+  tag = tag.trim();
+  if (!tag) return;
+  const arr = ensureTagArray(itemId);
+  if (!arr.includes(tag)) {
+    arr.push(tag);
+    saveTagStore();
+  }
+}
+
+function removeTagFromItem(itemId, tag) {
+  const arr = ensureTagArray(itemId);
+  const idx = arr.indexOf(tag);
+  if (idx !== -1) {
+    arr.splice(idx, 1);
+    saveTagStore();
+  }
+}
 
 
 function init() {
+  loadTagStore();
   populateEventSelect();
   populatePersonFilter();
   updateHero();
@@ -81,6 +143,28 @@ function init() {
     }
   });
 
+    // Add tag from input
+  lightboxTagAddEl.addEventListener("click", () => {
+    const value = lightboxTagInputEl.value.trim();
+    if (!value) return;
+    const item = currentGalleryItems[currentLightboxIndex];
+    if (!item) return;
+
+    addTagToItem(item.id, value);
+    lightboxTagInputEl.value = "";
+    renderLightboxTags(item);
+    populatePersonFilter();
+    renderGallery();
+  });
+
+  lightboxTagInputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      lightboxTagAddEl.click();
+    }
+  });
+
+
 }
 
 function populateEventSelect() {
@@ -98,15 +182,40 @@ function populateEventSelect() {
   }
 }
 
+// function populatePersonFilter() {
+//   // Collect unique people tags
+//   const peopleSet = new Set();
+
+//   MEDIA_ITEMS.forEach(item => {
+//     (item.people || []).forEach(p => peopleSet.add(p));
+//   });
+
+//   // Clear existing except "all"
+//   personFilterEl.innerHTML = "";
+//   const allOpt = document.createElement("option");
+//   allOpt.value = "all";
+//   allOpt.textContent = "Everyone";
+//   personFilterEl.appendChild(allOpt);
+
+//   Array.from(peopleSet)
+//     .sort((a, b) => a.localeCompare(b))
+//     .forEach(person => {
+//       const opt = document.createElement("option");
+//       opt.value = person;
+//       opt.textContent = person;
+//       personFilterEl.appendChild(opt);
+//     });
+
+//   personFilterEl.value = currentPerson;
+// }
+
 function populatePersonFilter() {
-  // Collect unique people tags
   const peopleSet = new Set();
 
   MEDIA_ITEMS.forEach(item => {
-    (item.people || []).forEach(p => peopleSet.add(p));
+    getTagsForItem(item).forEach(p => peopleSet.add(p));
   });
 
-  // Clear existing except "all"
   personFilterEl.innerHTML = "";
   const allOpt = document.createElement("option");
   allOpt.value = "all";
@@ -125,6 +234,7 @@ function populatePersonFilter() {
   personFilterEl.value = currentPerson;
 }
 
+
 function updateHero() {
   const event = EVENTS.find(e => e.id === currentEventId);
   if (!event) return;
@@ -133,15 +243,28 @@ function updateHero() {
   heroDescEl.textContent = event.description || "";
 }
 
+// function getFilteredMedia() {
+//   return MEDIA_ITEMS.filter(item => {
+//     const eventOk = !currentEventId || item.eventId === currentEventId;
+//     const personOk =
+//       currentPerson === "all" ||
+//       (item.people || []).includes(currentPerson);
+//     return eventOk && personOk;
+//   }).slice(0, GALLERY_COUNT_LIMIT);
+// }
+
 function getFilteredMedia() {
   return MEDIA_ITEMS.filter(item => {
     const eventOk = !currentEventId || item.eventId === currentEventId;
+
+    const tags = getTagsForItem(item);
     const personOk =
-      currentPerson === "all" ||
-      (item.people || []).includes(currentPerson);
+      currentPerson === "all" || tags.includes(currentPerson);
+
     return eventOk && personOk;
   }).slice(0, GALLERY_COUNT_LIMIT);
 }
+
 
 function renderGallery() {
   const items = getFilteredMedia();
@@ -249,6 +372,64 @@ function renderCollage(items) {
   collageGridEl.appendChild(fragment);
 }
 
+function renderLightboxTags(item) {
+  const tags = getTagsForItem(item);
+  lightboxTagsEl.innerHTML = "";
+
+  tags.forEach(tagText => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "tag tag-removable";
+    chip.textContent = tagText + " ✕";
+    chip.addEventListener("click", () => {
+      removeTagFromItem(item.id, tagText);
+      renderLightboxTags(item);
+      populatePersonFilter();
+      renderGallery();
+    });
+    lightboxTagsEl.appendChild(chip);
+  });
+}
+
+
+// function openLightbox(index) {
+//   if (!currentGalleryItems.length) return;
+
+//   currentLightboxIndex = index;
+//   const item = currentGalleryItems[index];
+//   if (!item) return;
+
+//   // Hide both media first
+//   lightboxImageEl.style.display = "none";
+//   lightboxVideoEl.style.display = "none";
+//   lightboxVideoEl.pause();
+
+//   if (item.type === "video") {
+//     lightboxVideoEl.src = item.src;
+//     lightboxVideoEl.style.display = "block";
+//   } else {
+//     lightboxImageEl.src = item.src;
+//     lightboxImageEl.alt = item.caption || "";
+//     lightboxImageEl.style.display = "block";
+//   }
+
+//   lightboxCaptionEl.textContent = item.caption || "";
+
+//   const event = EVENTS.find(e => e.id === item.eventId);
+//   lightboxEventEl.textContent = event ? event.name : "";
+
+//   lightboxTagsEl.innerHTML = "";
+//   (item.people || []).forEach(p => {
+//     const tag = document.createElement("span");
+//     tag.className = "tag";
+//     tag.textContent = p;
+//     lightboxTagsEl.appendChild(tag);
+//   });
+
+//   lightboxEl.classList.add("is-open");
+//   lightboxEl.setAttribute("aria-hidden", "false");
+// }
+
 function openLightbox(index) {
   if (!currentGalleryItems.length) return;
 
@@ -261,6 +442,7 @@ function openLightbox(index) {
   lightboxVideoEl.style.display = "none";
   lightboxVideoEl.pause();
 
+  // Set appropriate media type
   if (item.type === "video") {
     lightboxVideoEl.src = item.src;
     lightboxVideoEl.style.display = "block";
@@ -270,22 +452,24 @@ function openLightbox(index) {
     lightboxImageEl.style.display = "block";
   }
 
+  // Set caption
   lightboxCaptionEl.textContent = item.caption || "";
 
+  // Event name
   const event = EVENTS.find(e => e.id === item.eventId);
   lightboxEventEl.textContent = event ? event.name : "";
 
-  lightboxTagsEl.innerHTML = "";
-  (item.people || []).forEach(p => {
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = p;
-    lightboxTagsEl.appendChild(tag);
-  });
+  // Editable tags
+  renderLightboxTags(item);
 
+  // Clear input for new tag entry
+  lightboxTagInputEl.value = "";
+
+  // Show popup
   lightboxEl.classList.add("is-open");
   lightboxEl.setAttribute("aria-hidden", "false");
 }
+
 
 function closeLightbox() {
   lightboxEl.classList.remove("is-open");

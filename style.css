@@ -443,3 +443,42 @@ select:focus {
     height: 1.9rem;
   }
 }
+
+.lightbox-tags-edit {
+  margin-top: 0.35rem;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.lightbox-tags-edit input {
+  flex: 1;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #020617;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.lightbox-tags-edit input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.4);
+}
+
+.btn-small {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+}
+
+.lightbox-tags-hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.tag-removable {
+  cursor: pointer;
+}
+

@@ -11,7 +11,7 @@
 const EVENTS = [
   {
     id: "roka-2024-11-29",
-    name: "Baat Pakki Ceremony – 29 November 2024",
+    name: "Baat Pakki Ceremony – 29 November 2025",
     description: "The day our families made it official. 💍",
     coverImage: "images/image0.jpeg"
   }
@@ -25,7 +25,7 @@ const MEDIA_ITEMS = [
     eventId: "roka-2024-11-29",
     type: "image",
     src: "images/image0.jpeg",
-    caption: "First photo after the ceremony.",
+    caption: "Ceremonial Plaque",
     people: ["Albar", "Bushra"]
   },
   {
@@ -33,8 +33,24 @@ const MEDIA_ITEMS = [
     eventId: "roka-2024-11-29",
     type: "image",
     src: "images/image1.jpeg",
-    caption: "With Bushra’s parents.",
-    people: ["Albar", "Bushra", "Family"]
+    caption: "Candids",
+    people: ["Albar", "Bushra"]
+  },
+  {
+    id: "roka-photo-2",
+    eventId: "roka-2024-11-29",
+    type: "image",
+    src: "images/image2.jpeg",
+    caption: "Candids",
+    people: ["Albar", "Bushra"]
+  },
+  {
+    id: "roka-photo-2",
+    eventId: "roka-2024-11-29",
+    type: "image",
+    src: "images/image3.jpeg",
+    caption: "Candids",
+    people: ["Albar", "Bushra"]
   },
   {
     id: "roka-video-1",

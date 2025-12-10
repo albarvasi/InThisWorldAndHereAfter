@@ -11,9 +11,9 @@
 const EVENTS = [
   {
     id: "roka-2024-11-29",
-    name: "Roka Ceremony – 29 November 2024",
+    name: "Baat Pakki Ceremony – 29 November 2024",
     description: "The day our families made it official. 💍",
-    coverImage: "/images/image0.jpeg"
+    coverImage: "images/image0.jpeg"
   }
   // Later add more:
   // { id: "mehndi-2025-02-10", name: "...", description: "...", coverImage: "..." }
@@ -24,7 +24,7 @@ const MEDIA_ITEMS = [
     id: "roka-photo-1",
     eventId: "roka-2024-11-29",
     type: "image",
-    src: "/images/image0.jpeg",
+    src: "images/image0.jpeg",
     caption: "First photo after the ceremony.",
     people: ["Albar", "Bushra"]
   },
@@ -32,7 +32,7 @@ const MEDIA_ITEMS = [
     id: "roka-photo-2",
     eventId: "roka-2024-11-29",
     type: "image",
-    src: "images/roka-2024-11-29/img2.jpg",
+    src: "images/image1.jpeg",
     caption: "With Bushra’s parents.",
     people: ["Albar", "Bushra", "Family"]
   },

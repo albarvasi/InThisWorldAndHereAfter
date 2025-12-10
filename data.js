@@ -37,7 +37,7 @@ const MEDIA_ITEMS = [
     people: ["Albar", "Bushra"]
   },
   {
-    id: "roka-photo-2",
+    id: "roka-photo-3",
     eventId: "roka-2024-11-29",
     type: "image",
     src: "images/image2.jpeg",
@@ -45,7 +45,7 @@ const MEDIA_ITEMS = [
     people: ["Albar", "Bushra"]
   },
   {
-    id: "roka-photo-2",
+    id: "roka-photo-4",
     eventId: "roka-2024-11-29",
     type: "image",
     src: "images/image3.jpeg",

@@ -26,6 +26,14 @@ const MEDIA_ITEMS = [
     type: "image",
     src: "images/image0.jpeg",
     caption: "Ceremonial Plaque",
+    people: ["Everyone"]
+  },
+  {
+    id: "roka-photo-4",
+    eventId: "roka-2024-11-29",
+    type: "image",
+    src: "images/image3.jpeg",
+    caption: "First picture - Post Ceremony",
     people: ["Albar", "Bushra"]
   },
   {
@@ -41,14 +49,6 @@ const MEDIA_ITEMS = [
     eventId: "roka-2024-11-29",
     type: "image",
     src: "images/image2.jpeg",
-    caption: "Candids",
-    people: ["Albar", "Bushra"]
-  },
-  {
-    id: "roka-photo-4",
-    eventId: "roka-2024-11-29",
-    type: "image",
-    src: "images/image3.jpeg",
     caption: "Candids",
     people: ["Albar", "Bushra"]
   },
